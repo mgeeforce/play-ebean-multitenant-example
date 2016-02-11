@@ -65,7 +65,7 @@ public class Tenant extends Model {
 		this.databasePassword = databasePassword;
 	}
 	
-	public static Finder<String,Tenant> finder = new Finder<String,Tenant>(String.class, Tenant.class); 
+	public static Finder<String,Tenant> find = new Finder<String,Tenant>(String.class, Tenant.class); 
 	
 	
 }

@@ -13,7 +13,7 @@ import play.db.ebean.Model;
  *
  */
 @Entity
-@Table(name="User")
+@Table(name="mUser")
 public class User extends Model{
 
 	private static final long serialVersionUID = -4946196727155401208L;

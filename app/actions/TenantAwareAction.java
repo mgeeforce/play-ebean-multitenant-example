@@ -5,6 +5,7 @@ import java.util.Set;
 
 import master.Tenant;
 import models.User;
+import play.Logger;
 import play.libs.F.Promise;
 import play.mvc.Action;
 import play.mvc.Http.Context;
@@ -43,8 +44,8 @@ public class TenantAwareAction extends Action<TenantAware> {
 	 */
 	private void checkOrConfigureEbeanServer(String tenantId) {
 		if(!ebeanConfiguredTenants.contains(tenantId)) {
-			Tenant tenant = Tenant.finder.byId(tenantId);
-			
+			Tenant tenant = Tenant.find.byId(tenantId);
+			Logger.info("tenantId = "+tenant.getTenantId());
 			if(tenant==null) {
 				throw new RuntimeException("Tenant not found with Id: "+tenantId);
 			}
@@ -62,10 +63,10 @@ public class TenantAwareAction extends Action<TenantAware> {
 		
 		DataSourceConfig dsConfig = new DataSourceConfig();
 		
-		dsConfig.setDriver("com.mysql.jdbc.Driver");
+		dsConfig.setDriver("org.postgresql.Driver");
 		dsConfig.setUsername(tenant.getDatabaseUser());
 		dsConfig.setPassword(tenant.getDatabasePassword());
-		dsConfig.setUrl(String.format("jdbc:mysql://localhost:3306/%s", tenant.getDatabaseName()));
+		dsConfig.setUrl(String.format("jdbc:postgresql://localhost:5432/%s", tenant.getDatabaseName()));
 		dsConfig.setHeartbeatSql("select 1");
 		
 		config.setDataSourceConfig(dsConfig);

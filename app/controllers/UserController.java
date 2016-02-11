@@ -6,6 +6,7 @@ import com.avaje.ebean.Ebean;
 
 import models.User;
 import annotations.TenantAware;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -22,7 +23,7 @@ public class UserController extends Controller {
 		String tenantId = request().getHeader("tenantId");
 		//get the Ebean server for passed in tenantId and then query with that server
 		List<User> tenantUsers = Ebean.getServer(tenantId).find(User.class).findList();
-		
+		Logger.info("in getUsers and tenantUsers.size = "+tenantUsers.size());
 		return ok(Json.toJson(tenantUsers));
 		
 	}
